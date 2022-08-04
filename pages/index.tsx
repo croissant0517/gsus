@@ -3,14 +3,9 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
-import { useTheme as useNextTheme } from 'next-themes'
-import { Switch, useTheme } from '@nextui-org/react'
 import Header from '../components/Header/Header'
 
 const Home: NextPage = () => {
-  const { setTheme } = useNextTheme();
-  const { isDark, type } = useTheme();
-
   return (
     <div className={styles.container}>
       <Head>
@@ -25,14 +20,6 @@ const Home: NextPage = () => {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
-
-        <div>
-          The current theme is: {type}
-          <Switch
-            checked={isDark}
-            onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
-          />
-        </div>
 
         <p className={styles.description}>
           Get started by editing{' '}
