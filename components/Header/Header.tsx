@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Modal, Button, Text, Input, Row, Checkbox } from "@nextui-org/react";
 import { useTheme as useNextTheme } from 'next-themes'
+import { useRouter } from 'next/router';
 import { Switch, useTheme } from '@nextui-org/react'
 import { BsFillSunFill } from 'react-icons/bs';
 import { MdDarkMode } from 'react-icons/md';
@@ -10,6 +11,7 @@ import styles from './Header.module.css';
 const Header = () => {
     const { setTheme } = useNextTheme();
     const { isDark, type } = useTheme();
+    const router = useRouter();
     
     return (
         <header className={styles.headerContainer}>
@@ -20,9 +22,8 @@ const Header = () => {
                         alt="Gsus Logo" 
                         width={50} 
                         height={50} 
-                        style={{ 
-                            backgroundColor: 'white',
-                            borderRadius: '30%'
+                        style={{
+                            filter: `${type === 'dark' ? 'invert(1)' : 'invert(0)'}`
                         }}
                     />
                     <span className={styles.logo}>
@@ -32,12 +33,12 @@ const Header = () => {
             </Link>
             <div className={styles.linksContainer}>
                 <Link href='/about'>
-                    <div className={styles.linksItem}>
+                    <div className={styles.linksItem} style={{ color: router.pathname == "/about" ? "#0072F5" : "" }}>
                         About
                     </div>
                 </Link>
                 <Link href='/video'>
-                    <div className={styles.linksItem}>
+                    <div className={styles.linksItem} style={{ color: router.pathname == "/video" ? "#0072F5" : "" }}>
                         Video
                     </div>
                 </Link>
@@ -62,10 +63,3 @@ const Header = () => {
 }
 
 export default Header;
-
-                {/* The current theme is: {type}
-                <BsFillSunFill style={{ fontSize: '30px' }}/>
-                <Switch
-                    checked={isDark}
-                    onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
-                /> */}

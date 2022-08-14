@@ -3,6 +3,7 @@ import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 import { createTheme, NextUIProvider } from "@nextui-org/react"
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
+import Layout from '../components/Layout/Layout';
 import '../styles/globals.css'
 
 export type NextPageWithLayout = NextPage & {
@@ -37,7 +38,9 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       }}
     >
       <NextUIProvider>
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </NextUIProvider>
     </NextThemesProvider>
   );
