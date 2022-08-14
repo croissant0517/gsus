@@ -10,7 +10,7 @@ const VideoPage: NextPage = () => {
         <div>
             <h1>video No.{videoId}</h1>
             {
-                !!videoId && 
+                !!videoId &&
                 // <video
                 //     autoPlay
                 //     muted

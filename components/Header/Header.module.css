@@ -63,3 +63,9 @@
 .icon:hover {
     opacity: 0.8;
 }
+
+@media screen and (max-width: 800px) {
+    .logo {
+        display: none;
+    }
+}
