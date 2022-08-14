@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router';
-import styles from '../styles/Home.module.css'
+import VideoPlayer from '../../components/VideoPlayer/VideoPlayer';
 
 const VideoPage: NextPage = () => {
     const router = useRouter();
@@ -11,15 +11,16 @@ const VideoPage: NextPage = () => {
             <h1>video No.{videoId}</h1>
             {
                 !!videoId && 
-                <video
-                    autoPlay
-                    muted
-                    loop 
-                    controls
-                    style={{ width: '1000px' }}
-                >         
-                    <source src={`/video-${videoId}.mp4`} type="video/mp4"/>
-                </video>
+                // <video
+                //     autoPlay
+                //     muted
+                //     loop 
+                //     controls
+                //     style={{ width: '1000px' }}
+                // >         
+                //     <source src={`/video-${videoId}.mp4`} type="video/mp4"/>
+                // </video>
+                <VideoPlayer/>
             }
         </div>
     );
