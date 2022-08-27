@@ -34,12 +34,15 @@
     cursor: pointer;
 }
 
-.linksItem:hover {
-    opacity: 0.8;
+.linksItemActive {
+    margin: 0 10px;
+    font-weight: 600;
+    cursor: pointer;
+    color: #0072F5;
 }
 
-.linksItem:active {
-    color: #0072F5;
+.linksItem:hover {
+    opacity: 0.8;
 }
 
 .buttonsContainer {

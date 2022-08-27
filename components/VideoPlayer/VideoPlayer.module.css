@@ -1,0 +1,158 @@
+.videoPlayerContainer {
+    border: 5px solid;
+    border-radius: 10px;
+    position: relative;
+}
+
+.video {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.showControler {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    bottom: 0;
+    cursor: pointer;
+    color: white;
+}
+
+.centerPlayPauseButton {
+    display: none;
+}
+
+.loading {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    font-size: 100px;
+    animation: fade 300ms ease-out;
+}
+
+.centerPlayPauseButtonActive {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    z-index: 1;
+    font-size: 100px;
+    animation: fade 300ms ease-out;
+}
+
+.controlerContainer {
+    position: absolute;
+    bottom: 5px;
+    width: 100%;
+    height: 15%;
+    padding: 10px;
+    /* margin-top: -95px; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
+    z-index: 5;
+    opacity: 0;
+    transition: all 0.5s ease-out;
+    cursor: default;
+}
+
+.showControler:hover .controlerContainer {
+    opacity: 1;
+    transition: all 0.2s ease-out;
+}
+
+.controlers {
+    display: flex;
+    justify-content: space-between;
+}
+
+.leftControler {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.progressRange {
+    height: 12px;
+    width: 100%;
+    background: rgba(202, 202, 202, 0.5);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: height 0.1s ease-in-out;
+    z-index: 10;
+}
+
+.progressRange:hover {
+    height: 16px;
+}
+
+.progressBar {
+    background: dodgerblue;
+    width: 0%;
+    height: 100%;
+    border-radius: 10px;
+    transition: all linear;
+}
+
+.playPauseButton {
+    cursor: pointer;
+    font-size: 50px;
+}
+
+.playPauseButton:hover {
+    color: dodgerblue;
+}
+
+.rightControler {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.time {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bolder;
+}
+
+.fullscreenIcon {
+    display: flex;
+    cursor: pointer;
+    font-size: 30px;
+}
+
+.volumeIcon {
+    display: flex;
+    cursor: pointer;
+    font-size: clamp(1rem, 2.5vw, 5rem);
+}
+
+.volune {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 800px) {
+    /* .logo {
+        display: none;
+    } */
+}
+
+@keyframes fade {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

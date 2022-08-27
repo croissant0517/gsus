@@ -1,6 +1,14 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router';
-import VideoPlayer from '../../components/VideoPlayer/VideoPlayer';
+import dynamic from "next/dynamic";
+// import VideoPlayer from '../../components/VideoPlayer/VideoPlayer';
+
+const VideoPlayer = dynamic(
+    () => {
+      return import('../../components/VideoPlayer/VideoPlayer');
+    },
+    { ssr: false }
+  );
 
 const VideoPage: NextPage = () => {
     const router = useRouter();
@@ -9,19 +17,7 @@ const VideoPage: NextPage = () => {
     return (
         <div>
             <h1>video No.{videoId}</h1>
-            {
-                !!videoId &&
-                // <video
-                //     autoPlay
-                //     muted
-                //     loop 
-                //     controls
-                //     style={{ width: '1000px' }}
-                // >         
-                //     <source src={`/video-${videoId}.mp4`} type="video/mp4"/>
-                // </video>
-                <VideoPlayer/>
-            }
+            {!!videoId && <VideoPlayer/>}
         </div>
     );
 }
