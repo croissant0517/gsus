@@ -17,7 +17,11 @@ const VideoPage: NextPage = () => {
     return (
         <div>
             <h1>video No.{videoId}</h1>
-            {!!videoId && <VideoPlayer/>}
+            {!!videoId && 
+                <VideoPlayer
+                    src={'https://www.pexels.com/zh-tw/video/3007578/download/?h=1080&w=1920'}
+                />
+            }
         </div>
     );
 }

@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState, Key } from 'react';
 import {
-    Progress,
     Dropdown,
     Loading
 } from '@nextui-org/react';
@@ -13,16 +12,25 @@ import {
 import { BiFullscreen, BiExitFullscreen } from 'react-icons/bi'
 import styles from './VideoPlayer.module.css';
 
-const VideoPlayer = () => {
+interface playerPropsType {
+    src: string
+}
+
+const VideoPlayer = ({ src }: playerPropsType) => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
     const [currentTime, setCurrentTime] = useState<number>(0);
     const [duration, setDuration] = useState<number>(0);
     const [volume, setVolume] = useState<number>(0.5);
-    const [isMouseDownProgress, setIsMouseDownProgress] = useState<boolean>(false);
     const [playSpeed, setPlaySpeed] = useState<number>(1);
     const [fullscreen, setFullscreen] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
+
+    const handleLoadedMetadata = () => {
+        if (videoRef.current) {
+            setDuration(videoRef.current.duration);
+        }
+    };
 
     const handlePlayPauseVideo = () => {
         if (isPlaying) {
@@ -40,45 +48,23 @@ const VideoPlayer = () => {
 
     const handleTimeUpdate = () => {
         if (videoRef.current) {
-            setCurrentTime(videoRef.current?.currentTime);
+            setCurrentTime(videoRef.current.currentTime);
         }
     };
 
-    const handleVolumeChange = () => {
-        if (videoRef.current) {
-            videoRef.current.volume = volume;
+    const handleCurrentTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (!!videoRef.current) {
+            videoRef.current.currentTime = Number(event.currentTarget.value);
+            setCurrentTime(Number(event.currentTarget.value));
         }
     };
 
-    const handleLoadedMetadata = () => {
-        if (videoRef.current) {
-            setDuration(videoRef.current?.duration);
-        }
+    const handleVolumeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setVolume(Number(event.currentTarget.value));
     };
 
-    const displayTime = (time: number) => {
-        const minutes: number = Math.floor(time/60);
-        let seconds: number | string = Math.floor(time%60);
-        seconds = seconds > 9 ? seconds : `0${seconds}`;
-        return `${minutes}:${seconds}`;
-    };
-
-    const setProgress = (e: React.MouseEvent<HTMLElement>) => {
-        const newTime = e.nativeEvent.offsetX / e.currentTarget.offsetWidth;
-        const newCurrentTime = newTime * duration;
-        if (videoRef.current) {
-            videoRef.current.currentTime = newCurrentTime;
-        }
-    };
-
-    const displayVolumeIcon = () => {
-        if (volume > 0.5) {
-            return <BsFillVolumeUpFill />
-        } else if (volume <= 0.5 && volume > 0) {
-            return <BsFillVolumeDownFill/>
-        } else if (volume === 0) {
-            return <BsFillVolumeMuteFill/>
-        }
+    const handleSpeedChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setPlaySpeed(Number(event.target.value))
     };
 
     const handleClickVolumeIcon = () => {
@@ -92,16 +78,19 @@ const VideoPlayer = () => {
 
     const toggleFullscreen = () => {
         const forkDocument = document.documentElement as HTMLElement & {
+            webkitRequestFullscreen(): Promise<void>;
             webkitExitFullscreen(): Promise<void>;
         };
-        const elem: any = document.getElementById('player');
+        const elem = document.getElementById('player') as HTMLElement & {
+            webkitRequestFullscreen(): Promise<void>;
+        };
         function openFullscreen() {
-            if (elem?.requestFullscreen) {
+            if (elem.requestFullscreen) {
                 elem.requestFullscreen();
-            } else if (elem?.webkitRequestFullscreen) { /* Safari */
+            } else if (elem.webkitRequestFullscreen) { /* Safari */
                 elem.webkitRequestFullscreen();
             }
-        }
+        };
           
         /* Close fullscreen */
         function closeFullscreen() {
@@ -110,14 +99,30 @@ const VideoPlayer = () => {
             } else if (forkDocument.webkitExitFullscreen) { /* Safari */
                 forkDocument.webkitExitFullscreen();
             }
-        }
+        };
         
-        if (!fullscreen) {
-            openFullscreen();
-        } else {
+        if (document.fullscreenElement) {
             closeFullscreen();
+        } else {
+            openFullscreen();
         }
-        setFullscreen(!fullscreen);
+    };
+
+    const displayTime = (time: number) => {
+        const minutes: number = Math.floor(time/60);
+        let seconds: number | string = Math.floor(time%60);
+        seconds = seconds > 9 ? seconds : `0${seconds}`;
+        return `${minutes}:${seconds}`;
+    };
+
+    const displayVolumeIcon = () => {
+        if (volume > 0.5) {
+            return <BsFillVolumeUpFill />
+        } else if (volume <= 0.5 && volume > 0) {
+            return <BsFillVolumeDownFill/>
+        } else if (volume === 0) {
+            return <BsFillVolumeMuteFill/>
+        }
     };
 
     useEffect(() => {
@@ -133,7 +138,20 @@ const VideoPlayer = () => {
     }, [playSpeed]);
 
     useEffect(() => {
-        console.log(videoRef);
+        const fullscreenListener = () => {
+            if (document.fullscreenElement) {
+                setFullscreen(true);
+            } else {
+                setFullscreen(false);
+            }
+        };
+        window.addEventListener("fullscreenchange", fullscreenListener);
+        return () => {
+            window.removeEventListener("fullscreenchange", fullscreenListener);
+        };
+      }, []);
+
+    useEffect(() => {
         const cacheVolume = Number(localStorage.getItem('videoPlayVolume'));
         setVolume(cacheVolume);
     }, []);
@@ -149,14 +167,10 @@ const VideoPlayer = () => {
                 onEnded={handleEnded}
                 onTimeUpdate={handleTimeUpdate}
                 onLoadedMetadata={handleLoadedMetadata}
-                onVolumeChange={handleVolumeChange}
                 onCanPlay={() => {
                     setLoading(false);
                 }}
-                src='https://www.pexels.com/zh-tw/video/3007578/download/?h=1080&w=1920'
-                // autoPlay
-                // loop
-                // controls                
+                src={src}               
                 playsInline
             >
             </video>
@@ -179,67 +193,18 @@ const VideoPlayer = () => {
                             </div>
                         </React.Fragment>
                     }
-                        {/* 下方控制區 */}
+                        {/* custom UI */}
                         <div className={styles.controlerContainer}>
-                            {/* 進度條 */}                    
-                            {/* <div 
-                                className={styles.progressRange}
-                                onClick={setProgress}
-                                // 滑鼠拖拉進度條
-                                onMouseDown={(e) => {
-                                    // console.log(e);
-                                    setIsMouseDownProgress(true);
-                                    const newTime = e.nativeEvent.offsetX / e.currentTarget.offsetWidth;
-                                    const newCurrentTime = newTime * duration;
-                                    if (videoRef.current) {
-                                        // setIsPlaying(false);
-                                        setCurrentTime(newCurrentTime);
-                                        // videoRef.current.currentTime = newCurrentTime;
-                                    }
-                                }}
-                                onMouseUp={() => {
-                                    setIsMouseDownProgress(false);
-                                }}
-                                onMouseMove={(e) => {
-                                    // console.log(e);
-                                    const newTime = e.nativeEvent.offsetX / e.currentTarget.offsetWidth;
-                                    const newCurrentTime = newTime * duration;
-                                    // console.log(newCurrentTime);
-                                    if (isMouseDownProgress) {
-                                        setCurrentTime(newCurrentTime);
-                                    }
-                                }}
-                            >                           
-                                <div 
-                                    className={styles.progressBar}
-                                    style={{ width: `${(currentTime/duration) * 100}%` }}
-                                >                        
-                                </div>
-                            </div> */}
-                            {/* <Progress
-                                className={styles.progressRange}
-                                size='sm'
-                                color='primary'
-                                value={currentTime}
-                                max={duration}
-                                onClick={setProgress}
-                                animated={false}
-                            /> */}
-
+                            {/* progress */}                    
                             <input
                                 name='currentTime'
                                 className={styles.progressRange}
-                                style={{ width: '100%' }}
+                                style={{ backgroundSize: `${100*currentTime/duration}%` }}
                                 type={'range'}
                                 value={currentTime}
                                 max={duration}
                                 step={0.01}
-                                onChange={(e) => {
-                                    if (!!videoRef.current) {
-                                        videoRef.current.currentTime = Number(e.currentTarget.value);
-                                        setCurrentTime(Number(e.currentTarget.value));
-                                    }
-                                }}
+                                onChange={handleCurrentTimeChange}
                             ></input>
 
                             {/* controler UI */}
@@ -269,18 +234,14 @@ const VideoPlayer = () => {
                                     {/* volume input */}
                                     <input
                                         className={styles.volune}
+                                        style={{ backgroundSize: `${volume*100}%` }}
                                         name='volume'
                                         type='range'
                                         value={volume}
                                         min={0}
                                         max={1}
                                         step={0.01}
-                                        onChange={(e) => {
-                                            if (videoRef.current) {
-                                                setVolume(Number(e.currentTarget.value));
-                                                localStorage.setItem('videoPlayVolume', JSON.stringify(volume));
-                                            }
-                                        }}
+                                        onChange={handleVolumeChange}
                                     >
                                     </input>
                                 </div>
@@ -290,28 +251,20 @@ const VideoPlayer = () => {
                                         {displayTime(currentTime)} / {displayTime(duration)}
                                     </div>
                                     {/* speed */}
-                                    <Dropdown>
-                                        <Dropdown.Button css={{ color: 'white' }} light>
-                                            speed
-                                        </Dropdown.Button>
-                                        <Dropdown.Menu
-                                            variant="light"
-                                            aria-label="Single selection actions"
-                                            selectionMode="single"
-                                            selectedKeys={playSpeed.toString()}
-                                            onAction={(key: Key) => {
-                                                setPlaySpeed(Number(key));                   
-                                            }}
+                                    <div className={styles.speed}>
+                                        <select
+                                            className={styles.speedSelect}
+                                            value={playSpeed}
+                                            onChange={handleSpeedChange}
                                         >
-                                            <Dropdown.Item key={0.5}>0.5x</Dropdown.Item>
-                                            <Dropdown.Item key={0.75}>0.75x</Dropdown.Item>
-                                            <Dropdown.Item key={1}>1x</Dropdown.Item>
-                                            <Dropdown.Item key={1.25}>1.25x</Dropdown.Item>
-                                            <Dropdown.Item key={1.5}>1.5x</Dropdown.Item>
-                                            <Dropdown.Item key={1.75}>1.75x</Dropdown.Item>
-                                            <Dropdown.Item key={2}>2x</Dropdown.Item>
-                                        </Dropdown.Menu>
-                                    </Dropdown>
+                                            <option value="0.5">0.5 x</option>
+                                            <option value="0.75">0.75 x</option>
+                                            <option value="1" >1.0 x</option>
+                                            <option value="1.5">1.5 x</option>
+                                            <option value="2">2.0 x</option>
+                                        </select>
+                                    </div>
+                                    {/* fullscreen icon */}
                                     <div 
                                         className={styles.fullscreenIcon}
                                         onClick={toggleFullscreen}
