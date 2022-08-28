@@ -17,10 +17,20 @@ type AppPropsWithLayout = AppProps & {
 // NextUI主題樣式設定
 const lightTheme = createTheme({
   type: 'light',
+  theme: {
+    colors: {
+      borderColor: 'black'
+    }
+  }
 })
 
 const darkTheme = createTheme({
   type: 'dark',
+  theme: {
+    colors: {
+      borderColor: 'white'
+    }
+  }
 })
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {

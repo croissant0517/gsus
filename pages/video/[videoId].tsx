@@ -1,6 +1,14 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router';
-import styles from '../styles/Home.module.css'
+import dynamic from "next/dynamic";
+// import VideoPlayer from '../../components/VideoPlayer/VideoPlayer';
+
+const VideoPlayer = dynamic(
+    () => {
+      return import('../../components/VideoPlayer/VideoPlayer');
+    },
+    { ssr: false }
+  );
 
 const VideoPage: NextPage = () => {
     const router = useRouter();
@@ -9,21 +17,10 @@ const VideoPage: NextPage = () => {
     return (
         <div>
             <h1>video No.{videoId}</h1>
-            {
-                !!videoId && 
-                <video
-                    // autoPlay
-                    muted
-                    loop 
-                    controls
-                    style={{ width: '1000px' }}
-                >         
-                    <source 
-                        // src={`/video-${videoId}.mp4`}
-                        src='https://player.vimeo.com/external/342571552.hd.mp4?s=6aa6f164de3812abadff3dde86d19f7a074a8a66&profile_id=175&oauth2_token_id=57447761'
-                        type="video/mp4"
-                    />
-                </video>
+            {!!videoId && 
+                <VideoPlayer
+                    src={'https://www.pexels.com/zh-tw/video/3007578/download/?h=1080&w=1920'}
+                />
             }
         </div>
     );

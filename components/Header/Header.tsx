@@ -33,12 +33,12 @@ const Header = () => {
             </Link>
             <div className={styles.linksContainer}>
                 <Link href='/about'>
-                    <div className={styles.linksItem} style={{ color: router.pathname == "/about" ? "#0072F5" : "" }}>
+                    <div className={router.pathname === "/about" ? styles.linksItemActive : styles.linksItem}>
                         About
                     </div>
                 </Link>
                 <Link href='/video'>
-                    <div className={styles.linksItem} style={{ color: router.pathname == "/video" ? "#0072F5" : "" }}>
+                    <div className={router.pathname === "/video" ? styles.linksItemActive : styles.linksItem}>
                         Video
                     </div>
                 </Link>
