@@ -1,16 +1,17 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { Modal, Button, Text, Input, Row, Checkbox } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import { useTheme as useNextTheme } from 'next-themes'
 import { useRouter } from 'next/router';
-import { Switch, useTheme } from '@nextui-org/react'
+import { useTheme } from '@nextui-org/react'
 import { BsFillSunFill } from 'react-icons/bs';
 import { MdDarkMode } from 'react-icons/md';
 import styles from './Header.module.css';
+import { useEffect } from 'react';
 
 const Header = () => {
     const { setTheme } = useNextTheme();
-    const { isDark, type } = useTheme();
+    const { type } = useTheme();
     const router = useRouter();
     
     return (
@@ -33,12 +34,12 @@ const Header = () => {
             </Link>
             <div className={styles.linksContainer}>
                 <Link href='/about'>
-                    <div className={router.pathname === "/about" ? styles.linksItemActive : styles.linksItem}>
+                    <div className={router.pathname.includes('/about') ? styles.linksItemActive : styles.linksItem}>
                         About
                     </div>
                 </Link>
                 <Link href='/video'>
-                    <div className={router.pathname === "/video" ? styles.linksItemActive : styles.linksItem}>
+                    <div className={router.pathname.includes('/video') ? styles.linksItemActive : styles.linksItem}>
                         Video
                     </div>
                 </Link>
