@@ -1,14 +1,14 @@
 .container {
   padding: 0.5rem 1.25rem;
-  max-width: 80rem;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .main {
   min-height: 100vh;
   padding-top: 2rem;
   padding-bottom: 2rem;
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .footer {
