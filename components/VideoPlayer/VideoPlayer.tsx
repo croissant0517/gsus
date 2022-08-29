@@ -154,13 +154,6 @@ const VideoPlayer = ({ src }: playerPropsType) => {
         };
     }, []);
 
-    useEffect(() => {
-        const cacheVolume = Number(localStorage.getItem('videoPlayVolume'));
-        setVolume(cacheVolume);
-        console.log(cacheVolume);
-        
-    }, []);
-
     return (
         <div 
             className={styles.videoPlayerContainer}
