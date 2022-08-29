@@ -18,10 +18,11 @@ interface playerPropsType {
 
 const VideoPlayer = ({ src }: playerPropsType) => {
     const videoRef = useRef<HTMLVideoElement>(null);
+    const initialVolume = Number(localStorage.getItem('videoPlayVolume')) ?? 0.5 ;
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
     const [currentTime, setCurrentTime] = useState<number>(0);
     const [duration, setDuration] = useState<number>(0);
-    const [volume, setVolume] = useState<number>(0.5);
+    const [volume, setVolume] = useState<number>(initialVolume);
     const [playSpeed, setPlaySpeed] = useState<number>(1);
     const [fullscreen, setFullscreen] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
@@ -61,6 +62,7 @@ const VideoPlayer = ({ src }: playerPropsType) => {
 
     const handleVolumeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setVolume(Number(event.currentTarget.value));
+        // localStorage.setItem('videoPlayVolume', event.currentTarget.value);
     };
 
     const handleSpeedChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -129,6 +131,7 @@ const VideoPlayer = ({ src }: playerPropsType) => {
         if (videoRef.current) {
             videoRef.current.volume = volume;
         }
+        localStorage.setItem('videoPlayVolume', JSON.stringify(volume));
     }, [volume]);
 
     useEffect(() => {
@@ -149,11 +152,13 @@ const VideoPlayer = ({ src }: playerPropsType) => {
         return () => {
             window.removeEventListener("fullscreenchange", fullscreenListener);
         };
-      }, []);
+    }, []);
 
     useEffect(() => {
         const cacheVolume = Number(localStorage.getItem('videoPlayVolume'));
         setVolume(cacheVolume);
+        console.log(cacheVolume);
+        
     }, []);
 
     return (
