@@ -16,7 +16,7 @@ const AboutPage: NextPage = () => {
                 ></Image>
             </div> */}
             <div className={styles.title}>
-                <h1>Co-Founder</h1>
+                <h1>About</h1>
             </div>
             <div className={styles.profileContainer}>
                 <div className={styles.myPhotoContainer}>
