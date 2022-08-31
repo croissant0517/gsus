@@ -19,7 +19,7 @@ const lightTheme = createTheme({
   type: 'light',
   theme: {
     colors: {
-      borderColor: 'black'
+      borderColor: 'black',
     }
   }
 })
@@ -28,7 +28,7 @@ const darkTheme = createTheme({
   type: 'dark',
   theme: {
     colors: {
-      borderColor: 'white'
+      borderColor: 'white',
     }
   }
 })

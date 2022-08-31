@@ -7,10 +7,12 @@ const Video: NextPage = () => {
     return (
         <div>
             <Link href='/video/1'>
-                <Button auto color="primary">video 1</Button>
+                video 1
+                {/* <Button>video 1</Button> */}
             </Link>
             <Link href='/video/2'>
-                <Button auto color="primary">video 2</Button>
+                video 2
+                {/* <Button>video 2</Button> */}
             </Link>
         </div>
     );
