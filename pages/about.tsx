@@ -7,14 +7,6 @@ import { GrLinkedin } from 'react-icons/gr'
 const AboutPage: NextPage = () => {
     return (
         <div className={styles.pageContainer}>
-            {/* <div className={styles.pictureContainer}>
-                <Image 
-                    src='http://source.unsplash.com/l90zRbWvCoE'
-                    alt='about picture'
-                    layout='fill'
-                    objectFit='contain'
-                ></Image>
-            </div> */}
             <div className={styles.title}>
                 <h1>About</h1>
             </div>
@@ -22,6 +14,7 @@ const AboutPage: NextPage = () => {
                 <div className={styles.myPhotoContainer}>
                     <Image 
                         src='/my-photo.png'
+                        priority
                         alt='my photo'
                         layout='fill'
                         objectFit='contain'
