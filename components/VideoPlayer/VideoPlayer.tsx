@@ -131,7 +131,9 @@ const VideoPlayer = ({ src }: playerPropsType) => {
         if (videoRef.current) {
             videoRef.current.volume = volume;
         }
-        localStorage.setItem('videoPlayVolume', JSON.stringify(volume));
+        if (volume > 0) {
+            localStorage.setItem('videoPlayVolume', JSON.stringify(volume));
+        }
     }, [volume]);
 
     useEffect(() => {
