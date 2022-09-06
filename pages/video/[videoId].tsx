@@ -1,7 +1,6 @@
-import type { NextPage } from 'next'
+import type { NextPage, GetServerSideProps, GetStaticProps, GetStaticPaths } from 'next'
 import { useRouter } from 'next/router';
 import dynamic from "next/dynamic";
-// import VideoPlayer from '../../components/VideoPlayer/VideoPlayer';
 
 const VideoPlayer = dynamic(
     () => {
@@ -24,6 +23,44 @@ const VideoPage: NextPage = () => {
             }
         </div>
     );
+}
+
+// export const getStaticPaths: GetStaticPaths = () => {
+//     return {
+//         fallback: false,
+//         paths: [
+//             {
+//                 params: {
+//                     videoId: '1'
+//                 }
+//             },
+//             {
+//                 params: {
+//                     videoId: '2'
+//                 }
+//             }
+//         ]
+//     }
+// }
+
+// export const getStaticProps: GetStaticProps = async (content) => {
+//     const videoId = content.params;
+//     console.log(videoId);
+
+//     return {
+//         props: {},
+//     };
+// }
+
+export const getServerSideProps: GetServerSideProps = async (content) => {
+    const req = content.req;
+    const res = content.res;
+    const videoId = content.params;
+    console.log(videoId);
+
+    return {
+        props: {},
+    };
 }
 
 export default VideoPage;

@@ -1,4 +1,4 @@
-import type { NextPage } from 'next'
+import type { NextPage, GetStaticProps, GetServerSideProps } from 'next'
 import Link from 'next/link';
 import { Button } from '@nextui-org/react';
 import styles from '../styles/Home.module.css'
@@ -16,6 +16,21 @@ const Video: NextPage = () => {
             </Link>
         </div>
     );
+}
+
+// export const getStaticProps: GetStaticProps = async () => {
+//     return {
+//         props: {},
+//     };
+// }
+
+export const getServerSideProps: GetServerSideProps = async (content) => {
+    const req = content.req;
+    const res = content.res;
+
+    return {
+        props: {},
+    };
 }
 
 export default Video;
