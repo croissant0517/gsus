@@ -62,7 +62,6 @@ const VideoPlayer = ({ src }: playerPropsType) => {
 
     const handleVolumeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setVolume(Number(event.currentTarget.value));
-        // localStorage.setItem('videoPlayVolume', event.currentTarget.value);
     };
 
     const handleSpeedChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -194,7 +193,7 @@ const VideoPlayer = ({ src }: playerPropsType) => {
                         </React.Fragment>
                     }
                         {/* custom UI */}
-                        <div className={styles.controlerContainer}>
+                        <div className={styles.controlerContainer} style={{ bottom: fullscreen ? '0px' : '5px' }}>
                             {/* progress */}                    
                             <input
                                 name='currentTime'
