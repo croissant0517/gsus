@@ -45,7 +45,7 @@
 
 .controlerContainer {
     position: absolute;
-    bottom: 0;
+    bottom: 5px;
     width: 100%;
     height: auto;
     padding: 10px;
