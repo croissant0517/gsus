@@ -142,12 +142,7 @@ const Header = () => {
                             activeColor="primary"
                             isActive={router.pathname.includes(item.path)}
                         >
-                            <div
-                                onClick={() => {
-                                    console.log('GG');
-                                    
-                                }}
-                            >
+                            <div>
                                 <Link href={item.path}>
                                     <CustomLink
                                         color="inherit"
