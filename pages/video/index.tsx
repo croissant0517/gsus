@@ -64,7 +64,7 @@ export const getStaticProps: GetStaticProps = async () => {
     try {
         const res = await axios('https://api.pexels.com/videos/popular', {
             headers: {
-                'Authorization': '563492ad6f917000010000014833f6db804f435992402130a2d1fb24'
+                'Authorization': process.env.PEXEL_KEY ?? ''
             }
         })
         return {
