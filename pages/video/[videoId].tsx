@@ -18,6 +18,7 @@ const VideoPage: NextPage = ({ videoData }: InferGetServerSidePropsType<typeof g
     const [video, setVideo] = useState<VideoFile>({
         id: 0,
         link: '',
+        file_type: '',
         width: 0,
     })
 
@@ -33,6 +34,7 @@ const VideoPage: NextPage = ({ videoData }: InferGetServerSidePropsType<typeof g
             <h1>video No.{videoId}</h1>
             <VideoPlayer
                 src={video.link}
+                type={video.file_type}
             />
         </div>
     );
