@@ -14,9 +14,10 @@ import styles from './VideoPlayer.module.css';
 
 interface playerPropsType {
     src: string
+    type: string
 }
 
-const VideoPlayer = ({ src }: playerPropsType) => {
+const VideoPlayer = ({ src, type }: playerPropsType) => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const initialVolume = Number(localStorage.getItem('videoPlayVolume')) ?? 0.5 ;
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -172,6 +173,11 @@ const VideoPlayer = ({ src }: playerPropsType) => {
                 src={src}               
                 playsInline
             >
+                <source
+                    src={src}
+                    type={type}
+                >
+                </source>
             </video>
                 <div className={styles.showControler}>
                     {   loading ?

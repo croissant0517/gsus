@@ -1,10 +1,7 @@
-import React, { useEffect, useRef, useState, Key } from 'react';
+import React, { useRef, useState } from 'react';
 import { useRouter } from 'next/router';
-import {
-    Dropdown,
-    Loading
-} from '@nextui-org/react';
-import { IoPlay, IoPause } from 'react-icons/io5'
+import Image from 'next/image';
+import { VideoFile } from '../../pages/video';
 import styles from './VideoPlayer.module.css';
 
 interface playerPropsType {
@@ -12,70 +9,118 @@ interface playerPropsType {
     src: string
     userName: string
     userLink: string
+    image: string
 }
 
-const TinyVideoPlayer = ({ src, userName, userLink, id }: playerPropsType) => {
+const TinyVideoPlayer = ({ userName, userLink, id, image }: playerPropsType) => {
     const router = useRouter();
     const videoRef = useRef<HTMLVideoElement>(null);
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
-    const [loading, setLoading] = useState<boolean>(true);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [videoData, setVideoData] = useState<VideoFile>({
+        id: 0,
+        link: '',
+        file_type: '',
+        width: 0,
+    });
 
-    const handlePlayPauseVideo = () => {
-        if (isPlaying) {
-            videoRef.current?.pause();
-            setIsPlaying(false);
-        } else {
+    const handlePlayVideo = () => {
+        if (!isPlaying) {
             videoRef.current?.play();
             setIsPlaying(true);
         }
     };
 
+    const handlePauseVideo = () => {
+        if (isPlaying) {
+            videoRef.current?.pause();
+            setIsPlaying(false);
+        }
+    };
+
+    const getVideoData = () => {
+        if (videoData.link === '') {
+            setLoading(true)
+            fetch(`/api/get-video/${id}`)
+              .then((res) => res.json())
+              .then((data) => {
+                setVideoData(data.data)
+              })
+        }
+    }
+
     return (
         <div 
             className={styles.tinyVideoPlayerContainer}
+            style={{ width: 640, height: 360 }}
             id='player'
-        >
-            <video
-                className={styles.video}
-                ref={videoRef}
-                onCanPlay={() => {
-                    setLoading(false);
+            onMouseEnter={() => {
+                getVideoData();
+                handlePlayVideo();
+            }}
+            onMouseLeave={handlePauseVideo}
+        >   
+            <div
+                className={styles.providerContainer}
+                onClick={(event) => {
+                    if (event.target === event.currentTarget) {
+                        router.push(`/video/${id}`)
+                    }
                 }}
-                muted
-                loop
-                src={src}            
-                playsInline
             >
-            </video>
-            <div className={styles.showControler}>
-                {   loading ?
-                    <Loading className={styles.loading}/>
-                    :
-                    <React.Fragment>
-                        <div
-                            className={styles.providerContainer}
-                            onMouseEnter={handlePlayPauseVideo}
-                            onMouseLeave={handlePlayPauseVideo}
-                            onClick={(event) => {
-                                if (event.target === event.currentTarget) {
-                                    router.push(`/video/${id}`)
-                                }
-                            }}
-                        >
-                            Video courtesy of
-                            <a 
-                                className={styles.providerLink} 
-                                href={userLink} 
-                                target='_blank' 
-                                rel='noreferrer'
-                            >
-                                {userName}
-                            </a>
-                            in Pexels
-                        </div>
-                    </React.Fragment>
-                }
+                Video courtesy of
+                <a 
+                    className={styles.providerLink} 
+                    href={userLink} 
+                    target='_blank' 
+                    rel='noreferrer'
+                >
+                    {userName}
+                </a>
+                in Pexels
             </div>
+            {
+                !!videoData.link ?
+                <video
+                    className={styles.video}
+                    ref={videoRef}
+                    onCanPlay={() => {
+                        setLoading(false);
+                    }}
+                    muted
+                    loop
+                    playsInline
+                    autoPlay={isPlaying}
+                >
+                    <source
+                        src={videoData.link}
+                        type={videoData.file_type}
+                    >
+                    </source>
+                </video>
+                :
+                <Image
+                    className={styles.video}
+                    src={image}
+                    alt="error image"
+                    layout='fill'
+                    objectFit='cover'
+                    objectPosition='center'
+                    priority
+                />
+            }
+            {
+                loading &&
+                <Image
+                    className={styles.video}
+                    src={image}
+                    alt="error image"
+                    layout='fill'
+                    objectFit='cover'
+                    objectPosition='center'
+                    priority
+                />
+            }
         </div>
     );
 }

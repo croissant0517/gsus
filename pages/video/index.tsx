@@ -1,6 +1,5 @@
-import type { NextPage, GetStaticProps, GetServerSideProps, InferGetStaticPropsType } from 'next'
+import type { NextPage, GetStaticProps, GetServerSideProps, InferGetStaticPropsType, InferGetServerSidePropsType } from 'next'
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import axios from 'axios'
 import TinyVideoPlayer from '../../components/VideoPlayer/TinyVideoPlayer';
 import { Button } from '@nextui-org/react';
@@ -15,6 +14,7 @@ interface User {
 export interface VideoFile {
     id: number
     link: string
+    file_type: string
     width: number
 }
 
@@ -23,15 +23,16 @@ interface Video {
     user: User
     width: number
     video_files: VideoFile[]
+    image: string
 }
 
-const Video: NextPage = ({ videosData }: InferGetStaticPropsType<typeof getStaticProps>) => {
+const Video: NextPage = ({ videosData }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
     const [videos, setVideos] = useState<Video[]>();
 
     useEffect(() => {
-        if (!!videosData.videos) {
+        if (!!videosData?.videos) {
             // filter the FullHD quality file
-            const filtedVideosData = videosData.videos.filter((video: Video) => video.width >= 1920)
+            const filtedVideosData = videosData.videos.filter((video: Video) => video.width >= 1920);
             setVideos(filtedVideosData);
         }
     }, [videosData])
@@ -50,6 +51,7 @@ const Video: NextPage = ({ videosData }: InferGetStaticPropsType<typeof getStati
                                     src={srcLink.link}
                                     userName={video.user.name}
                                     userLink={video.user.url}
+                                    image={video.image}
                                 />
                             </div>
                         )
@@ -60,12 +62,35 @@ const Video: NextPage = ({ videosData }: InferGetStaticPropsType<typeof getStati
     );
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+// export const getStaticProps: GetStaticProps = async () => {
+//     try {
+//         const res = await axios('https://api.pexels.com/videos/popular', {
+//             headers: {
+//                 'Authorization': process.env.PEXEL_KEY ?? ''
+//             }
+//         })
+//         return {
+//             props: {
+//                 videosData: res.data
+//             },
+//         };
+//     } catch(error) {
+//         return {
+//             props: {
+//                 videosData: null
+//             },
+//         };
+//     }
+// }
+
+export const getServerSideProps: GetServerSideProps = async (content) => {
+    const req = content.req;
+    const res = content.res;
     try {
         const res = await axios('https://api.pexels.com/videos/popular', {
             headers: {
                 'Authorization': process.env.PEXEL_KEY ?? ''
-            }
+            }   
         })
         return {
             props: {
@@ -80,14 +105,5 @@ export const getStaticProps: GetStaticProps = async () => {
         };
     }
 }
-
-// export const getServerSideProps: GetServerSideProps = async (content) => {
-//     const req = content.req;
-//     const res = content.res;
-
-//     return {
-//         props: {},
-//     };
-// }
 
 export default Video;
