@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image'
 import Link from 'next/link'
-import { Button, Text, useTheme, Navbar, Dropdown, Avatar, Container } from "@nextui-org/react";
+import { Button, Text, useTheme, Navbar, Dropdown, Avatar, Container, Input } from "@nextui-org/react";
 import { Link as CustomLink} from "@nextui-org/react";
 import { useTheme as useNextTheme } from 'next-themes'
 import { useRouter } from 'next/router';
@@ -33,7 +33,7 @@ const Header = () => {
     const [user, setUser] = useState<boolean>(false);
     
     return (
-        <Navbar variant="sticky">
+        <Navbar maxWidth="fluid" variant="sticky">
             <Navbar.Toggle showIn="xs"/>
             <Navbar.Brand
                 css={{

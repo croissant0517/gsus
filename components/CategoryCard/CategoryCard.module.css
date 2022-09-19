@@ -1,0 +1,32 @@
+.categoryContainer {
+    width: 400px;
+    height: 300px;
+    margin: 10px;
+}
+
+.imageContainer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.titleContainer {
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 10px;
+    color: #fff;
+}
+
+@media screen and (max-width: 600px) {
+    .categoryContainer {
+        width: 100%;
+        height: calc(100vw*2/3);
+    }
+}

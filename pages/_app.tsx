@@ -38,10 +38,10 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
   return getLayout(
     <NextThemesProvider
-      defaultTheme="system"
+      defaultTheme='system'
       storageKey = 'theme'
       enableSystem={true}
-      attribute="class"
+      attribute='class'
       value={{
         light: lightTheme.className,
         dark: darkTheme.className

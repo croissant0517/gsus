@@ -1,0 +1,22 @@
+.embla {
+    overflow: hidden;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.emblaContainer {
+    display: flex;
+}
+
+.emblaSlide {
+    flex: 0 0 25%;
+}
+
+@media screen and (max-width: 600px) {
+    .emblaSlide {
+        flex: 0 0 100%;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
