@@ -1,12 +1,3 @@
-.headerContainer {
-    display: flex;
-    justify-content: space-between;
-    height: 80px;
-    max-width: 80rem;
-    margin-left: auto;
-    margin-right: auto;
-}
-
 .logoContainer {
     display: flex;
     justify-content: center;

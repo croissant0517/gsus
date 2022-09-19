@@ -1,8 +1,8 @@
+import { useEffect, useState } from 'react';
 import type { NextPage, GetServerSideProps, InferGetServerSidePropsType, GetStaticProps, GetStaticPaths } from 'next'
 import { useRouter } from 'next/router';
 import axios from 'axios'
 import dynamic from "next/dynamic";
-import { useEffect, useState } from 'react';
 import { VideoFile } from '.';
 
 const VideoPlayer = dynamic(
@@ -27,7 +27,7 @@ const VideoPage: NextPage = ({ videoData }: InferGetServerSidePropsType<typeof g
         if (!!video) {
             setVideo(video)
         }
-    },[videoData])
+    },[videoData]);
 
     return (
         <div>

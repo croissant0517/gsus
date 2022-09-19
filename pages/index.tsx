@@ -1,25 +1,70 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
-import Link from 'next/link'
-import Header from '../components/Header/Header'
+import type { NextPage } from 'next';
+import dynamic from "next/dynamic";
+import { Button } from "@nextui-org/react";
+import CategoryCard from '../components/CategoryCard/CategoryCard';
+import Carousel from '../components/Carousel/Carousel';
+import initialCategories from '../initialCaregoriesData.json'
+import styles from '../styles/Home.module.css';
+
+const SearchBar = dynamic(
+  () => {
+    return import('../components/SearchBar/SearchBar');
+  },
+  { ssr: false }
+);
 
 const Home: NextPage = () => {
   return (
     <div>
-      <video
-        autoPlay
-        muted
-        loop
-        controls
-        style={{ width: '1000px' }}
-      >         
-        <source 
-          src='https://player.vimeo.com/external/342571552.hd.mp4?s=6aa6f164de3812abadff3dde86d19f7a074a8a66&profile_id=175&oauth2_token_id=57447761'
-          type="video/mp4"
-        />
-      </video>
+      <div className={styles.videoContainer}>
+        <div className={styles.centerItemsContainer}>
+          <div className={styles.itemsContainer}>
+            <div className={styles.titleContainer}>
+              <h1>Always Exploring</h1>
+              <SearchBar />
+            </div>
+            <div className={styles.searchButton}>
+              <Button>See more Videos</Button>
+            </div>
+          </div>
+        </div>
+        <video
+          autoPlay
+          muted
+          loop
+          style={{ width: '100%' }}
+        >         
+          <source
+            src='https://www.pexels.com/zh-tw/video/3568724/download/?fps=30.0&h=1080&w=1920'
+            type="video/mp4"
+          />
+        </video>
+      </div>
+
+      {/* Carousel */}
+      <div className={styles.categoriesContainer}>
+        <div className={styles.categories}>
+          <Carousel
+            slides={
+              initialCategories.data.map((category: any, index: number) => {
+                return (
+                  <CategoryCard
+                    key={index}
+                    title={category.title}
+                    image={category.image}
+                  />
+                );
+              })
+            }
+            options={{
+              loop: true,
+              align: 'center',
+              slidesToScroll: 1,
+            }}
+          />
+        </div>
+      </div>
+
     </div>
   )
 }
