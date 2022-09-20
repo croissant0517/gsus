@@ -1,8 +1,15 @@
 import type { ReactNode } from 'react'
+import dynamic from 'next/dynamic';
 import Head from 'next/head'
 import styles from './Layout.module.css'
-import Header from '../Header/Header'
 import { useRouter } from 'next/router';
+
+const Header = dynamic(
+  () => {
+    return import('../Header/Header');
+  },
+  { ssr: false }
+);
 
 type LayoutProps = {
     children: ReactNode,
