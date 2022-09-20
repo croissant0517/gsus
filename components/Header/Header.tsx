@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image'
 import Link from 'next/link'
-import { Button, Text, useTheme, Navbar, Dropdown, Avatar, Container, Input } from "@nextui-org/react";
+import { Button, Text, useTheme, Navbar, Avatar } from "@nextui-org/react";
 import { Link as CustomLink} from "@nextui-org/react";
 import { useTheme as useNextTheme } from 'next-themes'
 import { useRouter } from 'next/router';
 import { BsFillSunFill } from 'react-icons/bs';
 import { MdDarkMode } from 'react-icons/md';
 import styles from './Header.module.css';
-import HeaderDropdown from './HeaderDropdown';
 
 interface CollapseItem {
     name: string,
@@ -63,10 +62,14 @@ const Header = () => {
                 hideIn="xs"
             >
                 <Link href="/video">
-                    Video
+                    <Navbar.Link color="inherit" isActive={router.pathname.includes('/video')}>
+                        Video
+                    </Navbar.Link>
                 </Link>
                 <Link href="/about">
-                    About
+                    <Navbar.Link color="inherit" isActive={router.pathname.includes('/about')}>
+                        About
+                    </Navbar.Link>
                 </Link>
             </Navbar.Content>
             <Navbar.Content
@@ -77,23 +80,6 @@ const Header = () => {
                     },
                 }}
             >
-                {   user ?
-                    <Avatar
-                        bordered
-                        color="primary"
-                        size="md"
-                        src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
-                    />
-                    :
-                    <Navbar.Content>
-                        <Button auto light>
-                            Login
-                        </Button>
-                        <Button auto>
-                            Sign Up
-                        </Button>
-                    </Navbar.Content>
-                }
                 <div className={styles.icon} onClick={() => setTheme(type === 'dark' ? 'light' : 'dark')}>
                     {type === 'dark' ? <BsFillSunFill/> : <MdDarkMode/>}
                 </div>
@@ -102,13 +88,11 @@ const Header = () => {
                 {collapseItems.map((item: CollapseItem, index: number) => (
                     <Navbar.CollapseItem
                         key={item.name}
-                        activeColor="primary"
-                        isActive={router.pathname.includes(item.path)}
                     >
                         <div>
-                            <Link href={item.path}>
+                            <CustomLink href={item.path} color="inherit">
                                 {item.name}
-                            </Link>
+                            </CustomLink>
                         </div>
                     </Navbar.CollapseItem>
                 ))}
