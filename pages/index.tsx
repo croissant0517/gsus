@@ -29,6 +29,7 @@ const Home: NextPage = () => {
           </div>
         </div>
         <video
+          className={styles.video}
           autoPlay
           muted
           loop
