@@ -4,9 +4,10 @@ import styles from './CategoryCard.module.css';
 type Props = {
     title: string;
     image: string;
+    onClick: (event: React.MouseEvent<HTMLInputElement>) => void
 }
 
-const CategoryCard = ({ title, image }: Props) => {
+const CategoryCard = ({ title, image, onClick }: Props) => {
     return (
         <div className={styles.categoryContainer}>
             <div className={styles.imageContainer}>
@@ -18,7 +19,12 @@ const CategoryCard = ({ title, image }: Props) => {
                     objectPosition='center'
                     priority={true}
                 />
-                <div className={styles.titleContainer}>{title}</div>
+                <div
+                    className={styles.titleContainer}
+                    onClick={onClick}
+                >
+                    {title}
+                </div>
             </div>
         </div>
     );

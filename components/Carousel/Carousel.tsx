@@ -3,12 +3,12 @@ import useEmblaCarousel, { EmblaOptionsType } from 'embla-carousel-react';
 import { PrevButton, NextButton } from "../CarouselButton/CarouselButton";
 import styles from './Carousel.module.css';
 
-type PropType = {
+type Props= {
   options?: EmblaOptionsType
   slides: ReactNode[]
 }
 
-const Carousel = (props: PropType) => {
+const Carousel = (props: Props) => {
     const { options, slides } = props;
     const [emblaRef, embla] = useEmblaCarousel(options);
 
