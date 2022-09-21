@@ -1,7 +1,13 @@
 import { Input } from "@nextui-org/react";
 import { SearchIcon } from "./SearchIcon";
 
-const SearchBar = () => {
+type Props = {
+    value: string
+    placeholder?: string
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+}
+
+const SearchBar = ({ placeholder, value, onChange }: Props) => {
     return (
         <Input
             clearable
@@ -11,11 +17,11 @@ const SearchBar = () => {
                     size={16}
                 />
             }
-            contentLeftStyling={false}
+            label=" "
             css={{
                 w: "100%",
                 "@xsMax": {
-                    mw: "300px",
+                    mw: "100%",
                 },
                 "& .nextui-input-content--left": {
                     h: "100%",
@@ -23,7 +29,9 @@ const SearchBar = () => {
                     dflex: "center",
                 },
             }}
-            placeholder="Search..."
+            placeholder={placeholder}
+            value={value}
+            onChange={onChange}
         />
     );
 }

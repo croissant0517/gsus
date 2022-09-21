@@ -1,19 +1,14 @@
 import type { NextPage } from 'next';
-import dynamic from "next/dynamic";
+import { useRouter } from 'next/router';
 import { Button } from "@nextui-org/react";
 import CategoryCard from '../components/CategoryCard/CategoryCard';
 import Carousel from '../components/Carousel/Carousel';
 import initialCategories from '../initialCaregoriesData.json'
 import styles from '../styles/Home.module.css';
 
-const SearchBar = dynamic(
-  () => {
-    return import('../components/SearchBar/SearchBar');
-  },
-  { ssr: false }
-);
-
 const Home: NextPage = () => {
+  const router = useRouter();
+
   return (
     <div>
       <div className={styles.videoContainer}>
@@ -21,7 +16,6 @@ const Home: NextPage = () => {
           <div className={styles.itemsContainer}>
             <div className={styles.titleContainer}>
               <h1>Always Exploring</h1>
-              <SearchBar />
             </div>
             <div className={styles.searchButton}>
               <Button>See more Videos</Button>
@@ -53,6 +47,9 @@ const Home: NextPage = () => {
                     key={index}
                     title={category.title}
                     image={category.image}
+                    onClick={() => {
+                      router.push(`/search?keyword=${category.title}`)
+                    }}
                   />
                 );
               })

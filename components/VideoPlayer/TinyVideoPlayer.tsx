@@ -2,9 +2,10 @@ import React, { useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { VideoFile } from '../../pages/video';
+import axios from 'axios';
 import styles from './VideoPlayer.module.css';
 
-interface playerPropsType {
+type Props = {
     id: number
     src: string
     userName: string
@@ -12,7 +13,7 @@ interface playerPropsType {
     image: string
 }
 
-const TinyVideoPlayer = ({ userName, userLink, id, image }: playerPropsType) => {
+const TinyVideoPlayer = ({ userName, userLink, id, image }: Props) => {
     const router = useRouter();
     const videoRef = useRef<HTMLVideoElement>(null);
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -41,18 +42,18 @@ const TinyVideoPlayer = ({ userName, userLink, id, image }: playerPropsType) => 
     const getVideoData = () => {
         if (videoData.link === '') {
             setLoading(true)
-            fetch(`/api/get-video/${id}`)
-              .then((res) => res.json())
-              .then((data) => {
-                setVideoData(data.data)
-              })
+            axios(`/api/get-video/${id}`)
+            .then((res) => {
+                setVideoData(res.data)
+            })
         }
     }
 
     return (
         <div 
             className={styles.tinyVideoPlayerContainer}
-            style={{ width: 640, height: 360 }}
+            // style={{ width: 640, height: 360 }}
+            style={{ width: '100%', height: 360 }}
             id='player'
             onMouseEnter={() => {
                 getVideoData();

@@ -1,8 +1,5 @@
 import React, { useEffect, useRef, useState, Key } from 'react';
-import {
-    Dropdown,
-    Loading
-} from '@nextui-org/react';
+import { Loading } from '@nextui-org/react';
 import { IoPlay, IoPause } from 'react-icons/io5'
 import { 
     BsFillVolumeMuteFill,
@@ -12,12 +9,12 @@ import {
 import { BiFullscreen, BiExitFullscreen } from 'react-icons/bi'
 import styles from './VideoPlayer.module.css';
 
-interface playerPropsType {
+type Props = {
     src: string
     type: string
 }
 
-const VideoPlayer = ({ src, type }: playerPropsType) => {
+const VideoPlayer = ({ src, type }: Props) => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const initialVolume = Number(localStorage.getItem('videoPlayVolume')) ?? 0.5 ;
     const [isPlaying, setIsPlaying] = useState<boolean>(false);

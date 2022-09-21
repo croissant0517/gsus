@@ -66,9 +66,9 @@ const Header = () => {
                         Video
                     </Navbar.Link>
                 </Link>
-                <Link href="/about">
-                    <Navbar.Link color="inherit" isActive={router.pathname.includes('/about')}>
-                        About
+                <Link href="/search">
+                    <Navbar.Link color="inherit" isActive={router.pathname.includes('/search')}>
+                        Search
                     </Navbar.Link>
                 </Link>
             </Navbar.Content>

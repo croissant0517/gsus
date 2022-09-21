@@ -1,11 +1,10 @@
-import type { NextPage, GetStaticProps, GetServerSideProps, InferGetStaticPropsType, InferGetServerSidePropsType } from 'next'
 import { useEffect, useState } from 'react';
+import type { NextPage } from 'next'
 import axios from 'axios'
-import TinyVideoPlayer from '../../components/VideoPlayer/TinyVideoPlayer';
-import { Button } from '@nextui-org/react';
+import VideoItemsList from '../../components/VideoItemsList/VideoItemsList';
 import styles from '../../styles/Video.module.css'
 
-interface User {
+export interface User {
     id: number
     name: string
     url: string
@@ -18,7 +17,7 @@ export interface VideoFile {
     width: number
 }
 
-interface Video {
+export interface Video {
     id: number
     user: User
     width: number
@@ -26,38 +25,58 @@ interface Video {
     image: string
 }
 
-const Video: NextPage = ({ videosData }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-    const [videos, setVideos] = useState<Video[]>();
+const Video: NextPage = () => {
+    const [videoDatas, setVideoDatas] = useState<Video[]>();
+    const [page, setPage] = useState<number>(1);
+    const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
-        if (!!videosData?.videos) {
+        setLoading(true);
+        axios(`/api/get-popular/`)
+        .then((res) => {
+            setPage(res.data.page);
             // filter the FullHD quality file
-            const filtedVideosData = videosData.videos.filter((video: Video) => video.width >= 1920);
-            setVideos(filtedVideosData);
+            const filtedVideosData = res.data.videos.filter((video: Video) => video.width >= 1920);
+            setVideoDatas(filtedVideosData);
+            setLoading(false);
+        })
+    }, []);
+
+    useEffect(() => {
+        const scrollingFetch = () => {
+            if((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                setLoading(true);
+                console.log("fetching more.........")
+                axios(`/api/get-popular/`, {
+                    params: { 
+                        page: page+1,
+                    }
+                })
+                .then((res) => {
+                    setPage(res.data.page);
+                    console.log(res.data);
+                    
+                    // filter the FullHD quality file
+                    const filtedVideosData = res.data.videos.filter((video: Video) => video.width >= 1920);
+                    const currentVideoDatas = videoDatas;
+                    currentVideoDatas?.push(filtedVideosData)
+                    setVideoDatas(currentVideoDatas);
+                    setLoading(false);
+                })
+            }
         }
-    }, [videosData])
+        window.addEventListener('scroll', scrollingFetch);
+        return () => {
+            window.removeEventListener('scroll', scrollingFetch);
+        };
+    }, [page, videoDatas]);
 
     return (
         <div className={styles.pageContainer}>
-            {
-                videos?.map((video: Video) => {
-                    // find the FullHD quality file
-                    const srcLink = video.video_files.find((file: VideoFile) => file.width === 1920)
-                    if (!!srcLink) {
-                        return (
-                            <div key={video.id} className={styles.videoContainer}>
-                                <TinyVideoPlayer
-                                    id={video.id}
-                                    src={srcLink.link}
-                                    userName={video.user.name}
-                                    userLink={video.user.url}
-                                    image={video.image}
-                                />
-                            </div>
-                        )
-                    }
-                })
-            }
+            <VideoItemsList
+                videos={videoDatas}
+                loading={loading}
+            />
         </div>
     );
 }
@@ -83,27 +102,27 @@ const Video: NextPage = ({ videosData }: InferGetServerSidePropsType<typeof getS
 //     }
 // }
 
-export const getServerSideProps: GetServerSideProps = async (content) => {
-    const req = content.req;
-    const res = content.res;
-    try {
-        const res = await axios('https://api.pexels.com/videos/popular', {
-            headers: {
-                'Authorization': process.env.PEXEL_KEY ?? ''
-            }   
-        })
-        return {
-            props: {
-                videosData: res.data
-            },
-        };
-    } catch(error) {
-        return {
-            props: {
-                videosData: null
-            },
-        };
-    }
-}
+// export const getServerSideProps: GetServerSideProps = async (content) => {
+//     const req = content.req;
+//     const res = content.res;
+//     try {
+//         const res = await axios('https://api.pexels.com/videos/popular', {
+//             headers: {
+//                 'Authorization': process.env.PEXEL_KEY ?? ''
+//             }   
+//         })
+//         return {
+//             props: {
+//                 videosData: res.data
+//             },
+//         };
+//     } catch(error) {
+//         return {
+//             props: {
+//                 videosData: null
+//             },
+//         };
+//     }
+// }
 
 export default Video;

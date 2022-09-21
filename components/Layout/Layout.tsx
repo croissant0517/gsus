@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react'
+import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import Head from 'next/head'
 import styles from './Layout.module.css'
-import { useRouter } from 'next/router';
 
 const Header = dynamic(
   () => {
@@ -11,11 +11,11 @@ const Header = dynamic(
   { ssr: false }
 );
 
-type LayoutProps = {
+type Props = {
     children: ReactNode,
 };
 
-const Layout = ({ children }: LayoutProps) => {
+const Layout = ({ children }: Props) => {
   const router = useRouter();
   const isLayoutNeeded = router.pathname !== '/';
   
