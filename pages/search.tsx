@@ -43,7 +43,7 @@ const SearchPage: NextPage = () => {
             setLoading(true);
             setSearchTerm(router.query.keyword as string);
             const keyword = router.query.keyword as string;
-            if (!!keyword) {
+            if (!!keyword && keyword !== '') {
                 axios(`/api/get-search/${keyword}`)
                 .then((res) => {
                     setSearchResults(res.data);
