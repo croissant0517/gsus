@@ -20,7 +20,6 @@ const VideoItemsList = ({ videos, loading }: Props) => {
                     if (!!srcLink) {
                         return (
                             <div key={video.id} className={styles.videoContainer}>
-                                <div>{video.id}</div>
                                 <TinyVideoPlayer
                                     id={video.id}
                                     src={srcLink.link}
