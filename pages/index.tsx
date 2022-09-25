@@ -18,7 +18,13 @@ const Home: NextPage = () => {
               <h1>Always Exploring</h1>
             </div>
             <div className={styles.searchButton}>
-              <Button>See more Videos</Button>
+              <Button
+                onClick={() => {
+                  router.push('/search');
+                }}
+              >
+                See more Videos
+              </Button>
             </div>
           </div>
         </div>
