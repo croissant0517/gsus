@@ -4,7 +4,7 @@ import { SearchIcon } from "./SearchIcon";
 type Props = {
     value: string
     placeholder?: string
-    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+    onChange: (event: any) => void
 }
 
 const SearchBar = ({ placeholder, value, onChange }: Props) => {
