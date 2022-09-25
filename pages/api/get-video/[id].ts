@@ -20,6 +20,6 @@ export default function handler(
       const srcLink = response.data.video_files.find((file: VideoFile) => file.width === 1280);
       res.status(200).json(srcLink);
     }).catch(error => {
-      res.status(400).json({ error: 'No Data' })
+      res.status(400).json({ error, })
     })
 }
