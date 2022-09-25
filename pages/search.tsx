@@ -81,12 +81,6 @@ const SearchPage: NextPage = () => {
         };
     }, [page, videoDatas, loading, searchTerm, searchResults]);
 
-    useEffect(() => {
-        console.log(videoDatas);
-        console.log(searchResults);
-        
-    }, [videoDatas, searchResults])
-
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(event.target.value);
     }
