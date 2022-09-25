@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { NextPage } from 'next'
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
@@ -84,30 +85,36 @@ const SearchPage: NextPage = () => {
     }
 
     return (
-        <div className={styles.pageContainer}>
-            <div
-                onKeyDown={handleDown}
-            >
-                <SearchBar
-                    value={searchTerm}
-                    placeholder={'Search'}
-                    onChange={handleChange}
-                />
-            </div>
-            <div className={styles.resultContainer}>
-                <div className={styles.resultAreaHeader}>
-                    <div>
-                        {`共 ${searchResults?.total_results ?? '0'} 部作品`}
-                    </div>
-                </div>
-                <div className={styles.result}>
-                    <VideoItemsList
-                        videos={videoDatas}
-                        loading={loading}
+        <React.Fragment>
+            <Head>
+                <title>GSUS | Search</title>
+                <meta name="description" content={`Search video courtesy of Pexels`}/>
+            </Head>
+            <div className={styles.pageContainer}>
+                <div
+                    onKeyDown={handleDown}
+                >
+                    <SearchBar
+                        value={searchTerm}
+                        placeholder={'Search'}
+                        onChange={handleChange}
                     />
                 </div>
+                <div className={styles.resultContainer}>
+                    <div className={styles.resultAreaHeader}>
+                        <div>
+                            {`共 ${searchResults?.total_results ?? '0'} 部作品`}
+                        </div>
+                    </div>
+                    <div className={styles.result}>
+                        <VideoItemsList
+                            videos={videoDatas}
+                            loading={loading}
+                        />
+                    </div>
+                </div>
             </div>
-        </div>
+        </React.Fragment>
     );
 }
 
