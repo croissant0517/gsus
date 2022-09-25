@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import type { NextPage, GetServerSideProps, InferGetServerSidePropsType, GetStaticProps, GetStaticPaths } from 'next'
-import { useRouter } from 'next/router';
+import type { NextPage, GetServerSideProps, InferGetServerSidePropsType } from 'next'
 import axios from 'axios'
 import dynamic from "next/dynamic";
 import { VideoFile } from '.';
+import styles from '../../styles/Video.module.css'
 
 const VideoPlayer = dynamic(
     () => {
@@ -13,27 +13,50 @@ const VideoPlayer = dynamic(
 );
 
 const VideoPage: NextPage = ({ videoData }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-    const router = useRouter();
-    const { videoId } = router.query;
     const [video, setVideo] = useState<VideoFile>({
         id: 0,
         link: '',
         file_type: '',
         width: 0,
-    })
+    });
 
     useEffect(() => {
-        console.log(videoData);
-        
-        const video = videoData.video_files.find((file: VideoFile) => file.width === 1920)
+        const video = videoData.video_files.find((file: VideoFile) => file.width === 1920);
         if (!!video) {
-            setVideo(video)
+            setVideo(video);
         }
     },[videoData]);
 
     return (
         <div>
-            <h1>video No.{videoId}</h1>
+            <h1>
+                <a 
+                    className={styles.userLink}
+                    href={videoData.url} 
+                    target='_blank' 
+                    rel='noreferrer'
+                >
+                    Video
+                </a>
+                courtesy of
+                <a 
+                    className={styles.userLink}
+                    href={videoData.user.url} 
+                    target='_blank' 
+                    rel='noreferrer'
+                >
+                    {videoData.user.name}
+                </a>
+                in
+                <a 
+                    className={styles.userLink}
+                    href='https://www.pexels.com/' 
+                    target='_blank' 
+                    rel='noreferrer'
+                >
+                    Pexels
+                </a>
+            </h1>
             <VideoPlayer
                 src={video.link}
                 type={video.file_type}

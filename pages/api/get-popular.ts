@@ -14,6 +14,8 @@ export default function handler(
         params: {
             page: page ?? 1,
             per_page: 15,
+            min_width: 1920,
+            min_height: 1080,
         }
     }).then(response => {
       res.status(200).json(response.data)
