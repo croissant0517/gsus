@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { NextPage } from 'next'
+import Head from 'next/head';
 import axios from 'axios'
 import VideoItemsList from '../../components/VideoItemsList/VideoItemsList';
 import styles from '../../styles/Video.module.css'
@@ -25,8 +26,17 @@ export interface Video {
     image: string
 }
 
+export interface SearchData {
+    page: number
+    per_page: number
+    videos: Video[]
+    total_results: number
+    next_page: string
+}
+
 const Video: NextPage = () => {
     const [videoDatas, setVideoDatas] = useState<Video[]>([]);
+    const [searchResults, setSearchResults] = useState<SearchData>();
     const [page, setPage] = useState<number>(1);
     const [loading, setLoading] = useState<boolean>(false);
 
@@ -35,6 +45,7 @@ const Video: NextPage = () => {
         axios(`/api/get-popular/`)
         .then((res) => {
             setPage(res.data.page);
+            setSearchResults(res.data);
             // filter the FullHD quality file
             const filtedVideosData = res.data.videos.filter((video: Video) => video.width >= 1920);
             setVideoDatas(filtedVideosData);
@@ -44,15 +55,16 @@ const Video: NextPage = () => {
 
     useEffect(() => {
         const scrollingFetch = () => {
-            if(((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1080) && !loading) {
+            if(((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1080) && !loading && !!searchResults?.next_page) {
                 setLoading(true);
                 axios(`/api/get-popular/`, {
-                    params: { 
+                    params: {
                         page: page+1,
                     }
                 })
                 .then((res) => {
                     setPage(res.data.page);
+                    setSearchResults(res.data);
                     // filter the FullHD quality file
                     const filtedVideosData = res.data.videos.filter((video: Video) => video.width >= 1920);
                     setVideoDatas([...videoDatas, ...filtedVideosData]);
@@ -64,15 +76,21 @@ const Video: NextPage = () => {
         return () => {
             window.removeEventListener('scroll', scrollingFetch);
         };
-    }, [page, videoDatas, loading]);
+    }, [page, videoDatas, loading, searchResults]);
 
     return (
-        <div className={styles.pageContainer}>
-            <VideoItemsList
-                videos={videoDatas}
-                loading={loading}
-            />
-        </div>
+        <React.Fragment>
+            <Head>
+                <title>GSUS | Videos</title>
+                <meta name="description" content={`Video courtesy Pexels`}/>
+            </Head>
+            <div className={styles.pageContainer}>
+                <VideoItemsList
+                    videos={videoDatas}
+                    loading={loading}
+                />
+            </div>
+        </React.Fragment>
     );
 }
 

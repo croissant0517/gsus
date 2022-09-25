@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { NextPage, GetServerSideProps, InferGetServerSidePropsType } from 'next'
+import Head from 'next/head';
 import axios from 'axios'
 import dynamic from "next/dynamic";
 import { VideoFile } from '.';
@@ -28,40 +29,46 @@ const VideoPage: NextPage = ({ videoData }: InferGetServerSidePropsType<typeof g
     },[videoData]);
 
     return (
-        <div>
-            <h1>
-                <a 
-                    className={styles.userLink}
-                    href={videoData.url} 
-                    target='_blank' 
-                    rel='noreferrer'
-                >
-                    Video
-                </a>
-                courtesy of
-                <a 
-                    className={styles.userLink}
-                    href={videoData.user.url} 
-                    target='_blank' 
-                    rel='noreferrer'
-                >
-                    {videoData.user.name}
-                </a>
-                in
-                <a 
-                    className={styles.userLink}
-                    href='https://www.pexels.com/' 
-                    target='_blank' 
-                    rel='noreferrer'
-                >
-                    Pexels
-                </a>
-            </h1>
+        <React.Fragment>
+            <Head>
+                <title>GSUS | {videoData.user.name}</title>
+                <meta name="description" content={`Video courtesy of ${videoData.user.name} in Pexels`}/>
+            </Head>
+            <div className={styles.title}>
+                <h1>
+                    <a 
+                        className={styles.userLink}
+                        href={videoData.url} 
+                        target='_blank' 
+                        rel='noreferrer'
+                    >
+                        Video
+                    </a>
+                    courtesy of
+                    <a 
+                        className={styles.userLink}
+                        href={videoData.user.url} 
+                        target='_blank' 
+                        rel='noreferrer'
+                    >
+                        {videoData.user.name}
+                    </a>
+                    in
+                    <a 
+                        className={styles.userLink}
+                        href='https://www.pexels.com/' 
+                        target='_blank' 
+                        rel='noreferrer'
+                    >
+                        Pexels
+                    </a>
+                </h1>
+            </div>
             <VideoPlayer
                 src={video.link}
                 type={video.file_type}
             />
-        </div>
+        </React.Fragment>
     );
 }
 

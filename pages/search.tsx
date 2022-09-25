@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import axios from 'axios';
-import { Video } from './video';
+import { Video, SearchData } from './video';
 import VideoItemsList from '../components/VideoItemsList/VideoItemsList';
 import styles from '../styles/Search.module.css'
 
@@ -21,14 +21,6 @@ const initialSearchData = {
     videos: [],
     total_results: 0,
     next_page: ''
-}
-
-interface SearchData {
-    page: number
-    per_page: number
-    videos: Video[]
-    total_results: number
-    next_page: string
 }
 
 const SearchPage: NextPage = () => {
