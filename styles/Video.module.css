@@ -16,6 +16,12 @@
     align-items: center;
 }
 
+.title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .userLink {
     margin: 0px 1rem;
 }
