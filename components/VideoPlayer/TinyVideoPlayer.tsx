@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { Loading } from '@nextui-org/react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { VideoFile } from '../../pages/video';
@@ -52,7 +53,6 @@ const TinyVideoPlayer = ({ userName, userLink, id, image }: Props) => {
     return (
         <div 
             className={styles.tinyVideoPlayerContainer}
-            // style={{ width: 640, height: 360 }}
             style={{ width: '100%', height: 360 }}
             id='player'
             onMouseEnter={() => {
@@ -112,15 +112,20 @@ const TinyVideoPlayer = ({ userName, userLink, id, image }: Props) => {
             }
             {
                 loading &&
-                <Image
-                    className={styles.video}
-                    src={image}
-                    alt="error image"
-                    layout='fill'
-                    objectFit='cover'
-                    objectPosition='center'
-                    priority
-                />
+                <React.Fragment>
+                    <div className={styles.loading}>
+                        <Loading />
+                    </div>
+                    <Image
+                        className={styles.video}
+                        src={image}
+                        alt="error image"
+                        layout='fill'
+                        objectFit='cover'
+                        objectPosition='center'
+                        priority
+                    />
+                </React.Fragment>
             }
         </div>
     );

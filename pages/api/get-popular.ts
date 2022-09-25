@@ -8,13 +8,13 @@ export default function handler(
     const { page } = req.query;
     
     axios(`https://api.pexels.com/videos/popular`, {
-      headers: {
-        'Authorization': process.env.PEXEL_KEY ?? ''
-      },
-      params: {
-        page: page ?? 1,
-        per_page: 15,
-    }
+        headers: {
+            'Authorization': process.env.PEXEL_KEY ?? ''
+        },
+        params: {
+            page: page ?? 1,
+            per_page: 15,
+        }
     }).then(response => {
       res.status(200).json(response.data)
     }).catch(error => {

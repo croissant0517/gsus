@@ -62,7 +62,6 @@ const VideoPage: NextPage = ({ videoData }: InferGetServerSidePropsType<typeof g
 
 // export const getStaticProps: GetStaticProps = async (content) => {
 //     const videoId = content.params;
-//     console.log(videoId);
 
 //     return {
 //         props: {},

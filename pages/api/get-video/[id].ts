@@ -17,8 +17,8 @@ export default function handler(
       }
     }).then(response => {
       // filter the HD quality file
-      const srcLink = response.data.video_files.find((file: VideoFile) => file.width === 1280)
-      res.status(200).json(srcLink)
+      const srcLink = response.data.video_files.find((file: VideoFile) => file.width === 1280);
+      res.status(200).json(srcLink);
     }).catch(error => {
       res.status(400).json({ error: 'No Data' })
     })
