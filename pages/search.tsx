@@ -58,7 +58,7 @@ const SearchPage: NextPage = () => {
 
     useEffect(() => {
         const scrollingFetch = () => {
-            if(((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1080) && !loading) {
+            if(((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1080) && !loading && !!searchResults?.next_page) {
                 setLoading(true);
                 axios(`/api/get-search/${searchTerm}`, {
                     params: { 
@@ -67,6 +67,7 @@ const SearchPage: NextPage = () => {
                 })
                 .then((res) => {
                     setPage(res.data.page);
+                    setSearchResults(res.data);
                     // filter the FullHD quality file
                     const filtedVideosData = res.data.videos.filter((video: Video) => video.width >= 1920);
                     setVideoDatas([...videoDatas, ...filtedVideosData]);
@@ -78,7 +79,13 @@ const SearchPage: NextPage = () => {
         return () => {
             window.removeEventListener('scroll', scrollingFetch);
         };
-    }, [page, videoDatas, loading, searchTerm]);
+    }, [page, videoDatas, loading, searchTerm, searchResults]);
+
+    useEffect(() => {
+        console.log(videoDatas);
+        console.log(searchResults);
+        
+    }, [videoDatas, searchResults])
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(event.target.value);
