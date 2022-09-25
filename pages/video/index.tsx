@@ -26,7 +26,7 @@ export interface Video {
 }
 
 const Video: NextPage = () => {
-    const [videoDatas, setVideoDatas] = useState<Video[]>();
+    const [videoDatas, setVideoDatas] = useState<Video[]>([]);
     const [page, setPage] = useState<number>(1);
     const [loading, setLoading] = useState<boolean>(false);
 
@@ -44,9 +44,8 @@ const Video: NextPage = () => {
 
     useEffect(() => {
         const scrollingFetch = () => {
-            if((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            if(((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1080) && !loading) {
                 setLoading(true);
-                console.log("fetching more.........")
                 axios(`/api/get-popular/`, {
                     params: { 
                         page: page+1,
@@ -54,13 +53,9 @@ const Video: NextPage = () => {
                 })
                 .then((res) => {
                     setPage(res.data.page);
-                    console.log(res.data);
-                    
                     // filter the FullHD quality file
                     const filtedVideosData = res.data.videos.filter((video: Video) => video.width >= 1920);
-                    const currentVideoDatas = videoDatas;
-                    currentVideoDatas?.push(filtedVideosData)
-                    setVideoDatas(currentVideoDatas);
+                    setVideoDatas([...videoDatas, ...filtedVideosData]);
                     setLoading(false);
                 })
             }
@@ -69,7 +64,7 @@ const Video: NextPage = () => {
         return () => {
             window.removeEventListener('scroll', scrollingFetch);
         };
-    }, [page, videoDatas]);
+    }, [page, videoDatas, loading]);
 
     return (
         <div className={styles.pageContainer}>

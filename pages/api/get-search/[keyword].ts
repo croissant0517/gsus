@@ -5,11 +5,15 @@ export default function handler(
     req: NextApiRequest,
     res: NextApiResponse
 ) {
-    const { keyword } = req.query;
+    const { keyword, page } = req.query;
     
     axios(`https://api.pexels.com/videos/search?query=${keyword}`, {
       headers: {
         'Authorization': process.env.PEXEL_KEY ?? ''
+      },
+      params: {
+        page: page ?? 1,
+        per_page: 15,
       }
     }).then(response => {
       res.status(200).json(response.data)

@@ -23,6 +23,8 @@ const VideoPage: NextPage = ({ videoData }: InferGetServerSidePropsType<typeof g
     })
 
     useEffect(() => {
+        console.log(videoData);
+        
         const video = videoData.video_files.find((file: VideoFile) => file.width === 1920)
         if (!!video) {
             setVideo(video)
@@ -60,7 +62,6 @@ const VideoPage: NextPage = ({ videoData }: InferGetServerSidePropsType<typeof g
 
 // export const getStaticProps: GetStaticProps = async (content) => {
 //     const videoId = content.params;
-//     console.log(videoId);
 
 //     return {
 //         props: {},

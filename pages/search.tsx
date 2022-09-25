@@ -34,6 +34,8 @@ interface SearchData {
 const SearchPage: NextPage = () => {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [searchResults, setSearchResults] = useState<SearchData>();
+    const [videoDatas, setVideoDatas] = useState<Video[]>([]);
+    const [page, setPage] = useState<number>(1);
     const [loading, setLoading] = useState<boolean>(false);
     const router = useRouter();
 
@@ -43,15 +45,40 @@ const SearchPage: NextPage = () => {
             setLoading(true);
             setSearchTerm(router.query.keyword as string);
             const keyword = router.query.keyword as string;
-            if (!!keyword) {
+            if (!!keyword && keyword !== '') {
                 axios(`/api/get-search/${keyword}`)
                 .then((res) => {
                     setSearchResults(res.data);
+                    setVideoDatas(res.data.videos);
                     setLoading(false);
                 })
             }
         }
     }, [router.query])
+
+    useEffect(() => {
+        const scrollingFetch = () => {
+            if(((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1080) && !loading) {
+                setLoading(true);
+                axios(`/api/get-search/${searchTerm}`, {
+                    params: { 
+                        page: page+1,
+                    }
+                })
+                .then((res) => {
+                    setPage(res.data.page);
+                    // filter the FullHD quality file
+                    const filtedVideosData = res.data.videos.filter((video: Video) => video.width >= 1920);
+                    setVideoDatas([...videoDatas, ...filtedVideosData]);
+                    setLoading(false);
+                })
+            }
+        }
+        window.addEventListener('scroll', scrollingFetch);
+        return () => {
+            window.removeEventListener('scroll', scrollingFetch);
+        };
+    }, [page, videoDatas, loading, searchTerm]);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(event.target.value);
@@ -82,7 +109,7 @@ const SearchPage: NextPage = () => {
                 </div>
                 <div className={styles.result}>
                     <VideoItemsList
-                        videos={searchResults?.videos}
+                        videos={videoDatas}
                         loading={loading}
                     />
                 </div>
