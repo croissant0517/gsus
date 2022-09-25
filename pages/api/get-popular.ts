@@ -20,6 +20,6 @@ export default function handler(
     }).then(response => {
       res.status(200).json(response.data)
     }).catch(error => {
-      res.status(400).json({ error: 'No Data' })
+      res.status(400).json({ error, })
     })
 }
