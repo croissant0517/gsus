@@ -20,6 +20,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: clamp(20px, 3vw, 5rem);
+    font-weight: 500;
+    margin-bottom: 1rem;
 }
 
 .userLink {
@@ -27,5 +30,7 @@
 }
 
 @media screen and (max-width: 800px) {
-
+    .userLink {
+        margin: 0px 0.5rem;
+    }
 }

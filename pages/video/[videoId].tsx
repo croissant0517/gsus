@@ -35,34 +35,32 @@ const VideoPage: NextPage = ({ videoData }: InferGetServerSidePropsType<typeof g
                 <meta name="description" content={`Video courtesy of ${videoData.user.name} in Pexels`}/>
             </Head>
             <div className={styles.title}>
-                <h1>
-                    <a 
-                        className={styles.userLink}
-                        href={videoData.url} 
-                        target='_blank' 
-                        rel='noreferrer'
-                    >
-                        Video
-                    </a>
-                    courtesy of
-                    <a 
-                        className={styles.userLink}
-                        href={videoData.user.url} 
-                        target='_blank' 
-                        rel='noreferrer'
-                    >
-                        {videoData.user.name}
-                    </a>
-                    in
-                    <a 
-                        className={styles.userLink}
-                        href='https://www.pexels.com/' 
-                        target='_blank' 
-                        rel='noreferrer'
-                    >
-                        Pexels
-                    </a>
-                </h1>
+                <a 
+                    className={styles.userLink}
+                    href={videoData.url} 
+                    target='_blank' 
+                    rel='noreferrer'
+                >
+                    Video
+                </a>
+                courtesy of
+                <a 
+                    className={styles.userLink}
+                    href={videoData.user.url} 
+                    target='_blank' 
+                    rel='noreferrer'
+                >
+                    {videoData.user.name}
+                </a>
+                in
+                <a 
+                    className={styles.userLink}
+                    href='https://www.pexels.com/' 
+                    target='_blank' 
+                    rel='noreferrer'
+                >
+                    Pexels
+                </a>
             </div>
             <VideoPlayer
                 src={video.link}
