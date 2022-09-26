@@ -20,8 +20,8 @@ const collapseItems: CollapseItem[] = [
         path: '/video'
     },
     {
-        name: 'About',
-        path: '/about'
+        name: 'Search',
+        path: '/search'
     },
 ];
 
@@ -29,7 +29,6 @@ const Header = () => {
     const { setTheme } = useNextTheme();
     const { type } = useTheme();
     const router = useRouter();
-    const [user, setUser] = useState<boolean>(false);
     
     return (
         <Navbar maxWidth="fluid" variant="sticky">
