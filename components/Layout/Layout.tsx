@@ -1,8 +1,8 @@
-import type { ReactNode } from 'react'
+import type { ReactNode } from 'react';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
-import Head from 'next/head'
-import styles from './Layout.module.css'
+import Head from 'next/head';
+import styles from './Layout.module.css';
 
 const Header = dynamic(
   () => {
@@ -12,13 +12,13 @@ const Header = dynamic(
 );
 
 type Props = {
-    children: ReactNode,
+  children: ReactNode;
 };
 
 const Layout = ({ children }: Props) => {
   const router = useRouter();
   const isLayoutNeeded = router.pathname !== '/';
-  
+
   return (
     <div className={styles.container}>
       <Head>
@@ -27,10 +27,10 @@ const Layout = ({ children }: Props) => {
         <link rel="icon" href="/jesus.png" />
       </Head>
 
-      <Header/>
+      <Header />
 
       {/* 首頁不需兩側layout */}
-      <main className={ isLayoutNeeded ? styles.main : styles.homePageMain }>
+      <main className={isLayoutNeeded ? styles.main : styles.homePageMain}>
         {children}
       </main>
 
@@ -38,7 +38,7 @@ const Layout = ({ children }: Props) => {
         <p>ⓒ {new Date().getFullYear()} All Rights Reserved</p>
       </footer>
     </div>
-  )
-}
+  );
+};
 
 export default Layout;

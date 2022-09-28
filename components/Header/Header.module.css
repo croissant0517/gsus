@@ -1,71 +1,71 @@
 .logoContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
 }
 
 .logoContainer {
-    filter: whitesmoke;
+  filter: whitesmoke;
 }
 
 .logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 30px;
-    font-weight: 600;
-    margin-left: 10px;
-    font-family: Verdana, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  font-weight: 600;
+  margin-left: 10px;
+  font-family: Verdana, sans-serif;
 }
 
 .linksContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .linksItem {
-    margin: 0 10px;
-    font-weight: 600;
-    cursor: pointer;
+  margin: 0 10px;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .linksItemActive {
-    margin: 0 10px;
-    font-weight: 600;
-    cursor: pointer;
+  margin: 0 10px;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .linksItem:hover {
-    opacity: 0.8;
+  opacity: 0.8;
 }
 
 .buttonsContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .button {
-    margin: 0 10px;
+  margin: 0 10px;
 }
 
 .icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 30px;
-    cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  cursor: pointer;
 }
 
 .icon:hover {
-    opacity: 0.8;
+  opacity: 0.8;
 }
 
 @media screen and (max-width: 800px) {
-    .logo {
-        display: none;
-    }
+  .logo {
+    display: none;
+  }
 }

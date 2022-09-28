@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react';
 import styles from './CarouselButton.module.css';
 
 type Props = {
-    enabled: boolean;
-    onClick: React.MouseEventHandler<HTMLButtonElement>;
-}
+  enabled: boolean;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+};
 
 export const PrevButton = ({ enabled, onClick }: Props) => (
   <button
