@@ -168,10 +168,9 @@ const VideoPlayer = ({ src, type }: Props) => {
         onCanPlay={() => {
           setLoading(false);
         }}
-        src={src}
         playsInline
       >
-        <source src={src} type={type}></source>
+        {!!src && <source src={src} type={type}></source>}
       </video>
       <div className={styles.showControler}>
         {loading ? (

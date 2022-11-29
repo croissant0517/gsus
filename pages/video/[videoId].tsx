@@ -39,7 +39,7 @@ const VideoPage: NextPage = ({
   return (
     <React.Fragment>
       <Head>
-        <title>GSUS | {videoData.user.name}</title>
+        <title>{`GSUS | ${videoData.user.name}`}</title>
         <meta
           name="description"
           content={`Video courtesy of ${videoData.user.name} in Pexels`}
