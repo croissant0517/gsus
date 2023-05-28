@@ -42,7 +42,7 @@ const Video: NextPage = () => {
 
   useEffect(() => {
     setLoading(true);
-    axios(`/api/get-popular/`).then((res) => {
+    axios('/api/get-popular/').then((res) => {
       setPage(res.data.page);
       setSearchResults(res.data);
       // filter the FullHD quality file
@@ -63,7 +63,7 @@ const Video: NextPage = () => {
         !!searchResults?.next_page
       ) {
         setLoading(true);
-        axios(`/api/get-popular/`, {
+        axios('/api/get-popular/', {
           params: {
             page: page + 1,
           },
@@ -89,7 +89,7 @@ const Video: NextPage = () => {
     <React.Fragment>
       <Head>
         <title>GSUS | Videos</title>
-        <meta name="description" content={`Video courtesy Pexels`} />
+        <meta name="description" content={'Video courtesy Pexels'} />
       </Head>
       <div className={styles.pageContainer}>
         <VideoItemsList videos={videoDatas} loading={loading} />
