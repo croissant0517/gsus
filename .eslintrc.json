@@ -8,6 +8,7 @@
   "rules": {
     "@typescript-eslint/no-unused-vars": "error",
     "@typescript-eslint/no-explicit-any": "off",
-    "prefer-const": "error"
+    "prefer-const": "error",
+    "quotes": [2, "single", { "avoidEscape": true }]
   }
 }

@@ -92,7 +92,7 @@ const SearchPage: NextPage = () => {
     <React.Fragment>
       <Head>
         <title>GSUS | Search</title>
-        <meta name="description" content={`Search video courtesy of Pexels`} />
+        <meta name="description" content={'Search video courtesy of Pexels'} />
       </Head>
       <div className={styles.pageContainer}>
         <div onKeyDown={handleDown}>

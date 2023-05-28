@@ -4,7 +4,7 @@ import axios from 'axios';
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const { page } = req.query;
 
-  axios(`https://api.pexels.com/videos/popular`, {
+  axios('https://api.pexels.com/videos/popular', {
     headers: {
       Authorization: process.env.PEXEL_KEY ?? '',
     },
