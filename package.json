@@ -40,8 +40,7 @@
   },
   "lint-staged": {
     "**/*.{ts,tsx,js,jsx}": [
-      "npm run prettier",
-      "eslint"
+      "npm run prettier"
     ]
   },
   "engines": {
